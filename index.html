@@ -100,6 +100,215 @@
   .right{margin-left:auto}
   .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,monospace;font-size:.85rem;background:#0e0e12;border:1px solid #2a2a33;padding:2px 6px;border-radius:6px}
 
+.wheel-panel {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: 20px;
+  background: #111318;
+  color: #f3f4f6;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.wheel-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.wheel-header h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.wheel-subtitle {
+  margin-top: 0.4rem;
+  color: #b8c0cc;
+}
+
+.wheel-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 1.5rem auto;
+}
+
+#wheelCanvas,
+#fateWheel {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #1a1e27 0%, #0e1015 100%);
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  z-index: 3;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 0;
+  border-bottom: 32px solid #f9fafb;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+}
+
+.wheel-controls {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.spin-btn,
+.secondary-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.3rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.spin-btn {
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: white;
+  font-weight: 700;
+}
+
+.secondary-btn {
+  background: #232833;
+  color: #e5e7eb;
+}
+
+.spin-btn:hover,
+.secondary-btn:hover {
+  transform: translateY(-1px);
+}
+
+.spin-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+}
+
+.wheel-status {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+  text-align: center;
+  color: #d1d5db;
+}
+
+.result-card {
+  margin-top: 1.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: #181c24;
+  border: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+}
+
+.result-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.result-card.reward {
+  border-color: rgba(34,197,94,0.5);
+  box-shadow: 0 0 0 1px rgba(34,197,94,0.15) inset;
+}
+
+.result-card.punishment {
+  border-color: rgba(239,68,68,0.45);
+  box-shadow: 0 0 0 1px rgba(239,68,68,0.12) inset;
+}
+
+.result-card.neutral {
+  border-color: rgba(245,158,11,0.45);
+  box-shadow: 0 0 0 1px rgba(245,158,11,0.12) inset;
+}
+
+.hidden {
+  display: none;
+}
+
+.history-panel {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.history-item {
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: #181c24;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.history-item .top-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.history-item .label {
+  font-weight: 700;
+}
+
+.history-item .meta {
+  color: #a8b0bc;
+  font-size: 0.92rem;
+}
+
+.history-item.reward .label {
+  color: #4ade80;
+}
+
+.history-item.punishment .label {
+  color: #f87171;
+}
+
+.history-item.neutral .label {
+  color: #fbbf24;
+}
+
+.history-item .description {
+  margin-top: 0.45rem;
+  color: #d1d5db;
+}
+
+@media (max-width: 600px) {
+  .wheel-panel {
+    padding: 1rem;
+  }
+
+  .wheel-header h2 {
+    font-size: 1.6rem;
+  }
+}
+  
   table.wk{width:100%;border-collapse:separate;border-spacing:0 8px}
   table.wk thead th{font-size:.9rem;color:#a5a7b5;text-align:left;padding:6px 8px}
   table.wk td, table.wk th{vertical-align:middle}
@@ -207,7 +416,7 @@
       <tbody id="weeklyTbody"></tbody>
     </table>
   </div>
-
+  
   <!-- Inline editor (hidden) -->
   <div id="weeklyEditor" style="display:none;margin-top:10px">
     <h3 style="margin:6px 0">🛠 Weekly Tasks Setup</h3>
@@ -216,6 +425,41 @@
       <button id="addWeeklyTask">Add Task</button>
       <button id="saveWeeklyCfg">Save Weekly Tasks</button>
     </div>
+  </div>
+</section>
+
+    <section class="wheel-panel">
+  <div class="wheel-header">
+    <h2>Fate Wheel</h2>
+    <p class="wheel-subtitle">One spin per day. Fate decides the next turn.</p>
+  </div>
+
+  <div class="wheel-wrap">
+    <div class="wheel-pointer"></div>
+    <canvas id="fateWheel" width="520" height="520"></canvas>
+  </div>
+
+  <div class="wheel-controls">
+    <button id="spinBtn" class="spin-btn">Spin the Wheel</button>
+    <button id="clearHistoryBtn" class="secondary-btn" type="button">Clear History</button>
+  </div>
+
+  <div class="wheel-status">
+    <div><strong>Today’s status:</strong> <span id="spinStatus">Checking…</span></div>
+    <div><strong>Last result:</strong> <span id="lastResult">None yet</span></div>
+  </div>
+
+  <div id="resultCard" class="result-card hidden">
+    <h3 id="resultTitle">Result</h3>
+    <p id="resultDescription"></p>
+  </div>
+
+  <div class="history-panel">
+    <div class="history-header">
+      <h3>Spin History</h3>
+      <span id="historyCount">0 entries</span>
+    </div>
+    <ul id="historyList" class="history-list"></ul>
   </div>
 </section>
 
@@ -725,6 +969,503 @@
 </script>
 <script src="weekly_tasks_module.js"></script>
 
+
+  <script>
+(() => {
+  const canvas = document.getElementById("fateWheel");
+  const ctx = canvas.getContext("2d");
+
+  const spinBtn = document.getElementById("spinBtn");
+  const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+  const spinStatus = document.getElementById("spinStatus");
+  const lastResult = document.getElementById("lastResult");
+  const historyList = document.getElementById("historyList");
+  const historyCount = document.getElementById("historyCount");
+  const resultCard = document.getElementById("resultCard");
+  const resultTitle = document.getElementById("resultTitle");
+  const resultDescription = document.getElementById("resultDescription");
+
+  const STORAGE_KEYS = {
+    history: "fateWheelHistory",
+    lastSpinDate: "fateWheelLastSpinDate",
+    lastSpinResult: "fateWheelLastSpinResult"
+  };
+
+  /*
+    Weighted psychological design notes:
+    - Punishments/tasks are more likely than rewards.
+    - One rare "mercy" or reward outcome keeps hope alive.
+    - A neutral outcome avoids making every result feel brutal.
+    - Labels are framed to feel more deliberate than generic.
+  */
+  const segments = [
+    {
+      label: "Extended Devotion",
+      description: "+24 hours added to the current lock period.",
+      type: "punishment",
+      weight: 22
+    },
+    {
+      label: "Additional Service",
+      description: "An extra task is assigned tomorrow.",
+      type: "punishment",
+      weight: 20
+    },
+    {
+      label: "Reflection Required",
+      description: "A written or voice reflection must be submitted today.",
+      type: "punishment",
+      weight: 16
+    },
+    {
+      label: "Double Effort",
+      description: "The next assigned task must be completed at double intensity or duration.",
+      type: "punishment",
+      weight: 14
+    },
+    {
+      label: "Streak at Risk",
+      description: "One compliance streak marker is removed unless today is completed perfectly.",
+      type: "punishment",
+      weight: 10
+    },
+    {
+      label: "Held in Suspense",
+      description: "No major change today. Stay alert.",
+      type: "neutral",
+      weight: 8
+    },
+    {
+      label: "Small Mercy",
+      description: "One minor task may be skipped this week.",
+      type: "reward",
+      weight: 5
+    },
+    {
+      label: "Grace Period",
+      description: "No punishment may be assigned for the next minor slip.",
+      type: "reward",
+      weight: 3
+    },
+    {
+      label: "Lucky Escape",
+      description: "No consequence today. A rare break from fate.",
+      type: "reward",
+      weight: 2
+    }
+  ];
+
+  const TAU = Math.PI * 2;
+  const radius = canvas.width / 2;
+  let currentRotation = 0;
+  let isSpinning = false;
+
+  function getSegmentColor(type, index) {
+    const punishmentPalette = ["#7f1d1d", "#991b1b", "#b91c1c", "#7c2d12", "#9a3412"];
+    const rewardPalette = ["#14532d", "#166534", "#15803d", "#065f46"];
+    const neutralPalette = ["#92400e", "#a16207", "#b45309"];
+
+    if (type === "punishment") return punishmentPalette[index % punishmentPalette.length];
+    if (type === "reward") return rewardPalette[index % rewardPalette.length];
+    return neutralPalette[index % neutralPalette.length];
+  }
+
+  function drawWheel(rotation = currentRotation) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const totalWeight = segments.reduce((sum, s) => sum + s.weight, 0);
+
+    let startAngle = -Math.PI / 2 + rotation;
+
+    segments.forEach((segment, index) => {
+      const arc = (segment.weight / totalWeight) * TAU;
+      const endAngle = startAngle + arc;
+
+      // Slice
+      ctx.beginPath();
+      ctx.moveTo(radius, radius);
+      ctx.arc(radius, radius, radius - 8, startAngle, endAngle);
+      ctx.closePath();
+      ctx.fillStyle = getSegmentColor(segment.type, index);
+      ctx.fill();
+
+      // Slice border
+      ctx.strokeStyle = "rgba(255,255,255,0.16)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Text
+      ctx.save();
+      ctx.translate(radius, radius);
+      ctx.rotate(startAngle + arc / 2);
+
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#f9fafb";
+      ctx.font = "bold 18px Arial, sans-serif";
+
+      const text = segment.label;
+      const textRadius = radius - 40;
+      wrapWheelText(text, textRadius, 0, 110, 20);
+
+      ctx.restore();
+
+      startAngle = endAngle;
+    });
+
+    // Center circle
+    ctx.beginPath();
+    ctx.arc(radius, radius, 58, 0, TAU);
+    ctx.fillStyle = "#0f172a";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,0.18)";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 18px Arial, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("FATE", radius, radius - 6);
+    ctx.font = "14px Arial, sans-serif";
+    ctx.fillText("decides", radius, radius + 16);
+  }
+
+  function wrapWheelText(text, x, y, maxWidth, lineHeight) {
+    const words = text.split(" ");
+    let line = "";
+    let lines = [];
+
+    for (let i = 0; i < words.length; i++) {
+      const testLine = line + words[i] + " ";
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && i > 0) {
+        lines.push(line.trim());
+        line = words[i] + " ";
+      } else {
+        line = testLine;
+      }
+    }
+    lines.push(line.trim());
+
+    const totalHeight = (lines.length - 1) * lineHeight;
+    lines.forEach((lineText, idx) => {
+      ctx.fillText(lineText, x, y - totalHeight / 2 + idx * lineHeight);
+    });
+  }
+
+  function weightedRandomSegment() {
+    const totalWeight = segments.reduce((sum, s) => sum + s.weight, 0);
+    let random = Math.random() * totalWeight;
+
+    for (let i = 0; i < segments.length; i++) {
+      random -= segments[i].weight;
+      if (random <= 0) {
+        return { segment: segments[i], index: i };
+      }
+    }
+
+    return { segment: segments[segments.length - 1], index: segments.length - 1 };
+  }
+
+  function getSegmentAngles(index) {
+    const totalWeight = segments.reduce((sum, s) => sum + s.weight, 0);
+    let cumulative = 0;
+
+    for (let i = 0; i < index; i++) {
+      cumulative += (segments[i].weight / totalWeight) * TAU;
+    }
+
+    const arc = (segments[index].weight / totalWeight) * TAU;
+    const start = cumulative;
+    const end = cumulative + arc;
+    return { start, end, arc };
+  }
+
+  function normalizeAngle(angle) {
+    return ((angle % TAU) + TAU) % TAU;
+  }
+
+  function spinWheel() {
+    if (isSpinning) return;
+    if (hasSpunToday()) {
+      updateSpinStatus();
+      return;
+    }
+
+    isSpinning = true;
+    spinBtn.disabled = true;
+    spinStatus.textContent = "Spinning…";
+
+    const chosen = weightedRandomSegment();
+    const chosenAngles = getSegmentAngles(chosen.index);
+
+    // Land in the middle-ish of the chosen segment, with a little random drift.
+    const padding = Math.min(chosenAngles.arc * 0.18, 0.18);
+    const targetWithinSegment =
+      chosenAngles.start +
+      padding +
+      Math.random() * Math.max(chosenAngles.arc - padding * 2, 0.02);
+
+    // Because pointer is fixed at top (-PI/2), we rotate the wheel so chosen lands there.
+    const desiredRotation = normalizeAngle(-Math.PI / 2 - targetWithinSegment);
+
+    const extraSpins = TAU * (6 + Math.floor(Math.random() * 3)); // 6-8 full spins
+    const startRotation = currentRotation;
+    const finalRotation = currentRotation + extraSpins + shortestPositiveDelta(currentRotation, desiredRotation + extraSpins);
+
+    const duration = 4600 + Math.random() * 1000;
+    const startTime = performance.now();
+
+    function animate(now) {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = easeOutQuint(t);
+
+      currentRotation = startRotation + (finalRotation - startRotation) * eased;
+      drawWheel(currentRotation);
+
+      if (t < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        currentRotation = normalizeAngle(finalRotation);
+        drawWheel(currentRotation);
+        onSpinComplete(chosen.segment);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  function shortestPositiveDelta(from, to) {
+    const normalizedFrom = normalizeAngle(from);
+    const normalizedTo = normalizeAngle(to);
+    let delta = normalizedTo - normalizedFrom;
+    if (delta < 0) delta += TAU;
+    return delta;
+  }
+
+  function easeOutQuint(t) {
+    return 1 - Math.pow(1 - t, 5);
+  }
+
+  function todayString() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function hasSpunToday() {
+    return localStorage.getItem(STORAGE_KEYS.lastSpinDate) === todayString();
+  }
+
+  function saveSpinResult(segment) {
+    const timestamp = new Date().toISOString();
+
+    localStorage.setItem(STORAGE_KEYS.lastSpinDate, todayString());
+    localStorage.setItem(STORAGE_KEYS.lastSpinResult, JSON.stringify({
+      label: segment.label,
+      description: segment.description,
+      type: segment.type,
+      timestamp
+    }));
+
+    const history = getHistory();
+    history.unshift({
+      label: segment.label,
+      description: segment.description,
+      type: segment.type,
+      timestamp
+    });
+
+    localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(history.slice(0, 50)));
+  }
+
+  function getHistory() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.history)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function getLastSpinResult() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.lastSpinResult)) || null;
+    } catch {
+      return null;
+    }
+  }
+
+  function formatDateTime(iso) {
+    const date = new Date(iso);
+    return date.toLocaleString([], {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    });
+  }
+
+  function renderHistory() {
+    const history = getHistory();
+    historyList.innerHTML = "";
+    historyCount.textContent = `${history.length} ${history.length === 1 ? "entry" : "entries"}`;
+
+    if (!history.length) {
+      historyList.innerHTML = `<li class="history-item neutral"><div class="description">No spins recorded yet.</div></li>`;
+      return;
+    }
+
+    history.forEach(item => {
+      const li = document.createElement("li");
+      li.className = `history-item ${item.type}`;
+      li.innerHTML = `
+        <div class="top-line">
+          <span class="label">${escapeHtml(item.label)}</span>
+          <span class="meta">${escapeHtml(formatDateTime(item.timestamp))}</span>
+        </div>
+        <div class="description">${escapeHtml(item.description)}</div>
+      `;
+      historyList.appendChild(li);
+    });
+  }
+
+  function updateLastResultDisplay() {
+    const last = getLastSpinResult();
+    if (!last) {
+      lastResult.textContent = "None yet";
+      return;
+    }
+    lastResult.textContent = `${last.label} — ${last.description}`;
+  }
+
+  function updateSpinStatus() {
+    if (hasSpunToday()) {
+      spinStatus.textContent = "Already spun today";
+      spinBtn.disabled = true;
+    } else {
+      spinStatus.textContent = "Spin available";
+      spinBtn.disabled = false;
+    }
+  }
+
+  function showResultCard(segment) {
+    resultCard.classList.remove("hidden", "reward", "punishment", "neutral");
+    resultCard.classList.add(segment.type);
+    resultTitle.textContent = segment.label;
+    resultDescription.textContent = segment.description;
+  }
+
+  function onSpinComplete(segment) {
+    isSpinning = false;
+    saveSpinResult(segment);
+    updateSpinStatus();
+    updateLastResultDisplay();
+    renderHistory();
+    showResultCard(segment);
+
+    if (segment.type === "reward") {
+      launchConfetti();
+    }
+  }
+
+  function clearHistory() {
+    localStorage.removeItem(STORAGE_KEYS.history);
+    localStorage.removeItem(STORAGE_KEYS.lastSpinDate);
+    localStorage.removeItem(STORAGE_KEYS.lastSpinResult);
+    resultCard.classList.add("hidden");
+    updateSpinStatus();
+    updateLastResultDisplay();
+    renderHistory();
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  // Lightweight confetti without any library
+  function launchConfetti() {
+    const count = 140;
+    const pieces = [];
+    const gravity = 0.26;
+    const drag = 0.992;
+    const colors = ["#22c55e", "#86efac", "#f59e0b", "#fde68a", "#ffffff"];
+
+    const overlay = document.createElement("canvas");
+    overlay.width = window.innerWidth;
+    overlay.height = window.innerHeight;
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.pointerEvents = "none";
+    overlay.style.zIndex = "9999";
+    document.body.appendChild(overlay);
+
+    const octx = overlay.getContext("2d");
+
+    for (let i = 0; i < count; i++) {
+      pieces.push({
+        x: window.innerWidth / 2 + (Math.random() - 0.5) * 120,
+        y: window.innerHeight * 0.22,
+        w: 6 + Math.random() * 8,
+        h: 10 + Math.random() * 10,
+        vx: (Math.random() - 0.5) * 8,
+        vy: -6 - Math.random() * 5,
+        rotation: Math.random() * TAU,
+        vr: (Math.random() - 0.5) * 0.25,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: 1
+      });
+    }
+
+    let frame = 0;
+
+    function tick() {
+      octx.clearRect(0, 0, overlay.width, overlay.height);
+
+      pieces.forEach(p => {
+        p.vx *= drag;
+        p.vy += gravity;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rotation += p.vr;
+        p.alpha -= 0.006;
+
+        octx.save();
+        octx.globalAlpha = Math.max(p.alpha, 0);
+        octx.translate(p.x, p.y);
+        octx.rotate(p.rotation);
+        octx.fillStyle = p.color;
+        octx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        octx.restore();
+      });
+
+      frame++;
+      if (frame < 220) {
+        requestAnimationFrame(tick);
+      } else {
+        overlay.remove();
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  spinBtn.addEventListener("click", spinWheel);
+  clearHistoryBtn.addEventListener("click", clearHistory);
+
+  drawWheel();
+  updateSpinStatus();
+  updateLastResultDisplay();
+  renderHistory();
+})();
+</script>
 
 </body>
 </html>
