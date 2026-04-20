@@ -1195,22 +1195,24 @@
     spinStatus.textContent = "Spinning…";
 
     const chosen = weightedRandomSegment();
-    const chosenAngles = getSegmentAngles(chosen.index);
+const chosenAngles = getSegmentAngles(chosen.index);
 
-    // Land in the middle-ish of the chosen segment, with a little random drift.
-    const padding = Math.min(chosenAngles.arc * 0.18, 0.18);
-    const targetWithinSegment =
-      chosenAngles.start +
-      padding +
-      Math.random() * Math.max(chosenAngles.arc - padding * 2, 0.02);
+// Land somewhere inside the chosen slice
+const padding = Math.min(chosenAngles.arc * 0.18, 0.18);
+const targetWithinSegment =
+  chosenAngles.start +
+  padding +
+  Math.random() * Math.max(chosenAngles.arc - padding * 2, 0.02);
 
-    // Because pointer is fixed at top (-PI/2), we rotate the wheel so chosen lands there.
-    const desiredRotation = normalizeAngle(-Math.PI / 2 - targetWithinSegment);
+// Pointer is at the top, and wheel slices already start from the top
+const desiredRotation = normalizeAngle(-targetWithinSegment);
 
-    const extraSpins = TAU * (6 + Math.floor(Math.random() * 3)); // 6-8 full spins
-    const startRotation = currentRotation;
-    const finalRotation = currentRotation + extraSpins + shortestPositiveDelta(currentRotation, desiredRotation + extraSpins);
-
+const extraSpins = TAU * (6 + Math.floor(Math.random() * 3));
+const startRotation = currentRotation;
+const finalRotation =
+  currentRotation +
+  extraSpins +
+  shortestPositiveDelta(currentRotation, desiredRotation + extraSpins);
     const duration = 4600 + Math.random() * 1000;
     const startTime = performance.now();
 
