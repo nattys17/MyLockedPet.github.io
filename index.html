@@ -321,6 +321,33 @@
   .banner.success{border-color:#2563eb}
   .banner.error{border-color:#ef4444}
   
+.pet-popup {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.55);
+  z-index: 99999;
+  animation: petFadeOut 3.2s ease forwards;
+}
+
+.pet-popup-box {
+  background: linear-gradient(135deg, #1a1a1f, #35101c);
+  border: 1px solid var(--accent);
+  color: var(--ink);
+  padding: 28px 34px;
+  border-radius: 22px;
+  font-size: 1.45rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+@keyframes petFadeOut {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
 
 /* Intro gate */
 #introGate{
@@ -631,9 +658,31 @@ body.app-unlocked #dashboardApp{
     document.dispatchEvent(new CustomEvent("dashboardRoleChanged", { detail: { role: r } }));
   }
 
+  function showLockedPetPopup(){
+  const existing = document.querySelector(".pet-popup");
+  if(existing) existing.remove();
+
+  const popup = document.createElement("div");
+  popup.className = "pet-popup";
+
+  popup.innerHTML = `
+    <div class="pet-popup-box">
+      Hi My Locked Pet.<br>
+      Have you been good today? 😈
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.remove();
+  }, 3200);
+}
+  
   if(introYesBtn){
     introYesBtn.addEventListener("click", ()=>{
       setRole("sub");
+      showLockedPetPopUp();
     });
   }
 
