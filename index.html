@@ -544,7 +544,7 @@ body.app-unlocked #dashboardApp{
 
 </style>
 </head>
-<body>
+<body style="visibility:hidden;">
   <div id="introGate">
     <section class="card">
       <h1>Are you My Locked Pet?</h1>
@@ -1697,6 +1697,7 @@ const finalRotation =
   }
 
 document.body.classList.add("app-ready");
+document.body.style.visibility = "visible";
 
   // Lightweight confetti without any library
   function launchConfetti() {
