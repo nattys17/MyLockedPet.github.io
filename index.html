@@ -346,6 +346,10 @@
   .wk .todaycol{outline:1px dashed #3b82f6; outline-offset:-4px; border-radius:6px}
   .wk .taskname{display:flex;align-items:center;gap:8px;font-weight:600}
   .wk input[type=checkbox]{transform:scale(1.2)}
+  .wk input[type="checkbox"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
   .banner{display:block;padding:8px 12px;border:1px solid #2a2a33;border-radius:10px;background:#12131a;margin:8px 0}
   .banner.success{border-color:#2563eb}
   .banner.error{border-color:#ef4444}
