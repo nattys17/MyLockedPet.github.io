@@ -1,5 +1,5 @@
 (function(){
-  // Weekly Tasks (Mon–Fri, PDT) — single-card with inline editor
+  // Weekly Tasks (Mon–Sun, CDT) — single-card with inline editor
   // v3.1: Robust role detection + safe fallbacks (force show via data-editor="show" or ?edit=1)
   const TZ = 'America/Chicago';
 
@@ -134,7 +134,6 @@
     const weeklyTable = document.getElementById('weeklyTable');
     const weeklyTbody = document.getElementById('weeklyTbody');
     const weekRangePDT = document.getElementById('weekRangePDT');
-    
     if(!weeklyTbody) return;
 
     const tcol = todayColIndex();
@@ -143,7 +142,7 @@
       ths.forEach((th,i)=> th.classList.toggle('todaycol', (i-1)===tcol));
     }
     if(weekRangePDT) weekRangePDT.textContent = weekRangeLabelPDT();
-    
+
     const weekKey = mondayOfWeekPDT();
     const cfg = state.weeklyTasksConfig || [];
     const done = (state.weeklyDone && state.weeklyDone[weekKey]) ? state.weeklyDone[weekKey] : {};
@@ -157,7 +156,6 @@
       for(let i=0;i<7;i++){
         const td = document.createElement('td');
         const cb = document.createElement('input'); cb.type='checkbox'; cb.dataset.task = task.id; cb.dataset.col = String(i);
-        cb.disabled = !(getRole(root) === 'keyholder' || getRole(root) === 'sub');
         const row = done[task.id] || [false,false,false,false,false,false,false];
         cb.checked = !!row[i];
         td.appendChild(cb); tr.appendChild(td);
@@ -249,18 +247,12 @@
     const weeklyTbody = document.getElementById('weeklyTbody');
     if(weeklyTbody){
       weeklyTbody.addEventListener('change', async (e)=>{
-  if(!e.target.matches('input[type="checkbox"]')) return;
+        if(!e.target.matches('input[type="checkbox"]')) return;
+        const role = getRole(root);
+        if(!(role==='keyholder' || role==='sub')){ flash('Choose a role','error'); return; }
+        const who = (role==='sub') ? 'sub' : 'keyholder';
+        const token = who==='sub' ? cfg.TOKEN_SUB : cfg.TOKEN_KEY;
 
-  const role = getRole(root);
-
-  if(!(role==='keyholder' || role==='sub')){
-    e.target.checked = !e.target.checked;
-    flash('Choose a role','error');
-    return;
-  }
-
-  const who = (role==='sub') ? 'sub' : 'keyholder';
-  const token = who==='sub' ? cfg.TOKEN_SUB : cfg.TOKEN_KEY;
         const weekKey = mondayOfWeekPDT();
         const done = (state.weeklyDone && state.weeklyDone[weekKey]) ? JSON.parse(JSON.stringify(state.weeklyDone[weekKey])) : {};
         const taskId = e.target.dataset.task; const col = parseInt(e.target.dataset.col,10);
@@ -322,11 +314,17 @@ if (btnSave && !btnSave._bound) {
   });
 }
 
-    // PDT rollover watcher
+    // CDT rollover watcher
     (function watchPdtRollover(){
       let last = ymdInTZ();
       setInterval(()=>{ const cur = ymdInTZ(); if(cur!==last){ last=cur; renderWeeklyTable(state); } }, 30000);
     })();
+
+    // Re-render role-sensitive controls after the intro gate chooses Locked Pet or Keyholder
+    document.addEventListener('dashboardRoleChanged', ()=>{
+      renderWeeklyTable(state);
+      renderInlineEditor(root, state);
+    });
 
     // If editor was missing in DOM, try to find again after DOM settles
     setTimeout(()=> renderInlineEditor(root, state), 0);
