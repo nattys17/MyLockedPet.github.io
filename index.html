@@ -328,7 +328,7 @@
   place-items: center;
   background: rgba(0,0,0,0.55);
   z-index: 99999;
-  animation: petFadeOut 17s ease forwards;
+  animation: petFadeOut 24s ease forwards;
 }
 
 .pet-popup-box {
@@ -370,7 +370,7 @@
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.7) rotate(0deg);
 
-  animation: photoStack 17s ease forwards;
+  animation: photoStack 5.5s ease forwards;
 }
 .final-photo {
   position: absolute;
@@ -387,8 +387,8 @@
   transform: translate(-50%, -50%) scale(0.7);
 
   animation:
-  finalPhotoDrop 5.5s ease 14s forwards,
-  finalGlowPulse 1.2s ease-in-out 16.6s 1;
+  finalPhotoDrop 5.5s ease 15s forwards,
+  finalGlowPulse 1.2s ease-in-out 20.5s 1;
 }
 
 
@@ -459,8 +459,8 @@
 
 @keyframes petFadeOut {
   0% { opacity: 0; }
-  10% { opacity: 1; }
-  80% { opacity: 1; }
+  5% { opacity: 1; }
+  92% { opacity: 1; }
   100% { opacity: 0; pointer-events: none; }
 }
 
@@ -804,7 +804,7 @@ body.app-unlocked #dashboardApp{
 
   setTimeout(() => {
     popup.remove();
-  }, 17000);
+  }, 24000);
 }
   
   if(introYesBtn){
