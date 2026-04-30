@@ -328,7 +328,7 @@
   place-items: center;
   background: rgba(0,0,0,0.55);
   z-index: 99999;
-  animation: petFadeOut 12s ease forwards;
+  animation: petFadeOut 17s ease forwards;
 }
 
 .pet-popup-box {
@@ -370,7 +370,7 @@
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.7) rotate(0deg);
 
-  animation: photoStack 12s ease forwards;
+  animation: photoStack 17s ease forwards;
 }
 .final-photo {
   position: absolute;
@@ -386,18 +386,20 @@
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.7);
 
-  animation: finalPhotoDrop 2.2s ease 9.0s forwards;
+  animation:
+  finalPhotoDrop 5.5s ease 14s forwards,
+  finalGlowPulse 1.2s ease-in-out 16.6s 1;
 }
 
 
 
 .p1 { animation-delay: 0.4s;  --angle: -16deg; --x: -56%; --y: -54%; }
-.p2 { animation-delay: 1.6s;  --angle: 10deg;  --x: -44%; --y: -52%; }
-.p3 { animation-delay: 2.8s;  --angle: -7deg;  --x: -52%; --y: -46%; }
-.p4 { animation-delay: 4.0s;  --angle: 18deg;  --x: -47%; --y: -49%; }
-.p5 { animation-delay: 5.2s;  --angle: -22deg; --x: -58%; --y: -43%; }
-.p6 { animation-delay: 6.4s;  --angle: 6deg;   --x: -42%; --y: -44%; }
-.p7 { animation-delay: 7.8s;  --angle: -3deg;  --x: -50%; --y: -50%; }
+.p2 { animation-delay: 2.6s;  --angle: 10deg;  --x: -44%; --y: -52%; }
+.p3 { animation-delay: 4.8s;  --angle: -7deg;  --x: -52%; --y: -46%; }
+.p4 { animation-delay: 6.0s;  --angle: 18deg;  --x: -47%; --y: -49%; }
+.p5 { animation-delay: 8.2s;  --angle: -22deg; --x: -58%; --y: -43%; }
+.p6 { animation-delay: 10.4s;  --angle: 6deg;   --x: -42%; --y: -44%; }
+.p7 { animation-delay: 12.6s;  --angle: -3deg;  --x: -50%; --y: -50%; }
 .p8 { --angle: 0deg;  --x: -50%;  --y: -50%; }
 
 @keyframes photoStack {
@@ -423,19 +425,18 @@
 @keyframes finalPhotoDrop {
   0% {
     opacity: 0;
-    transform: translate(-50%, -160%) scale(0.7);
+    transform: translate(-50%, -140%) scale(0.6);
   }
-  60% {
+  50% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.08);
-    box-shadow: 0 0 18px rgba(255, 51, 102, 0.35),
-                0 0 36px rgba(255, 51, 102, 0.2),
-                0 10px 25px rgba(0,0,0,0.5);
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(1);
   }
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   }
 }
 
@@ -803,7 +804,7 @@ body.app-unlocked #dashboardApp{
 
   setTimeout(() => {
     popup.remove();
-  }, 12000);
+  }, 17000);
 }
   
   if(introYesBtn){
