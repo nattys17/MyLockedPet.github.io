@@ -384,12 +384,7 @@
 .p5 { animation-delay: 3.6s;  --angle: -22deg; --x: -58%; --y: -43%; }
 .p6 { animation-delay: 4.4s;  --angle: 6deg;   --x: -42%; --y: -44%; }
 .p7 { animation-delay: 5.2s;  --angle: -3deg;  --x: -50%; --y: -50%; }
-.p8 {
-  animation-delay: 6.4s;
-  --angle: 0deg;
-  --x: -50%;
-  --y: -50%;
-}
+.p8 { --angle: 0deg;  --x: -50%;  --y: -50%; }
 
 @keyframes photoStack {
   0% {
@@ -409,9 +404,13 @@
   }
 }
 
-.final-photo {
+..final-photo {
   z-index: 10;
-  animation: finalPhoto 2.2s ease forwards, finalPulse 1.2s ease-in-out 1 8.6s;
+  opacity: 0;
+  animation:
+    finalPhoto 2.2s ease 6.4s forwards,
+    finalPulse 1.2s ease-in-out 8.6s 1;
+}
 }
 
 @keyframes finalPhoto {
