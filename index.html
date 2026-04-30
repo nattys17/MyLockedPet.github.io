@@ -328,24 +328,78 @@
   place-items: center;
   background: rgba(0,0,0,0.55);
   z-index: 99999;
-  animation: petFadeOut 5s ease forwards;
+  animation: petFadeOut 4.5s ease forwards;
 }
 
 .pet-popup-box {
   background: linear-gradient(135deg, #1a1a1f, #35101c);
   border: 1px solid var(--accent);
   color: var(--ink);
-  padding: 28px 34px;
+  padding: 24px;
   border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+  max-width: 520px;
+  width: min(92vw, 520px);
+}
+
+.pet-popup-message {
   font-size: 1.45rem;
   font-weight: 800;
-  text-align: center;
+  margin-bottom: 16px;
+}
+
+.pet-collage {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.pet-collage img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.16);
+}
+.pet-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.16);
+  opacity: 0;
+  animation: photoPopFade 5s ease forwards;
+}
+
+.pet-photo.p1 { animation-delay: 0.2s; }
+.pet-photo.p2 { animation-delay: 0.8s; }
+.pet-photo.p3 { animation-delay: 1.4s; }
+.pet-photo.p4 { animation-delay: 2.0s; }
+
+@keyframes photoPopFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  18% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  72% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
 }
 
 @keyframes petFadeOut {
   0% { opacity: 0; }
-  12% { opacity: 1; }
-  75% { opacity: 1; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
   100% { opacity: 0; pointer-events: none; }
 }
 
@@ -667,22 +721,35 @@ body.app-unlocked #dashboardApp{
 
   popup.innerHTML = `
     <div class="pet-popup-box">
-      Hi My Locked Pet.<br>
-      Have you been good today? 😈
-    </div>
+      <div class="pet-popup-message">
+        Hi My Locked Pet.<br>
+        Have you been good today? 😈
+      </div>
+
+      <div class="pet-collage">
+  <img class="pet-photo p1" src="Images/SPOILER_Snapchat-506067771.jpeg" alt="">
+  <img class="pet-photo p2" src="Images/SPOILER_Snapchat-1261008396.jpeg" alt="">
+  <img class="pet-photo p3" src="Images/SPOILER_Snapchat-2008389140.jpeg" alt="">
+  <img class="pet-photo p4" src="Images/Snapchat-174173646.jpeg" alt="">
+  <img class="pet-photo p5" src="Images/Snapchat-1932973159.jpeg" alt="">
+  <img class="pet-photo p6" src="Images/Snapchat-1516503806.jpeg" alt="">
+  <img class="pet-photo p7" src="Images/Snapchat-920630831.jpeg" alt="">
+  
+  
+</div>
   `;
 
   document.body.appendChild(popup);
 
   setTimeout(() => {
     popup.remove();
-  }, 3200);
+  }, 6800);
 }
   
   if(introYesBtn){
     introYesBtn.addEventListener("click", ()=>{
       setRole("sub");
-      showLockedPetPopup();
+      setTimeout(showLockedPetPopup, 100);
     });
   }
 
