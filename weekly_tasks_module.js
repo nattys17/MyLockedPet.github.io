@@ -134,7 +134,7 @@
     const weeklyTable = document.getElementById('weeklyTable');
     const weeklyTbody = document.getElementById('weeklyTbody');
     const weekRangePDT = document.getElementById('weekRangePDT');
-    cb.disabled = !(getRole(root)==='keyholder' || getRole(root)==='sub');
+    
     if(!weeklyTbody) return;
 
     const tcol = todayColIndex();
@@ -252,15 +252,14 @@
 
   const role = getRole(root);
 
-  // 🚫 Block viewer completely
   if(!(role==='keyholder' || role==='sub')){
-    e.target.checked = !e.target.checked; // revert the click
+    e.target.checked = !e.target.checked;
     flash('Choose a role','error');
     return;
   }
-        const who = (role==='sub') ? 'sub' : 'keyholder';
-        const token = who==='sub' ? cfg.TOKEN_SUB : cfg.TOKEN_KEY;
 
+  const who = (role==='sub') ? 'sub' : 'keyholder';
+  const token = who==='sub' ? cfg.TOKEN_SUB : cfg.TOKEN_KEY;
         const weekKey = mondayOfWeekPDT();
         const done = (state.weeklyDone && state.weeklyDone[weekKey]) ? JSON.parse(JSON.stringify(state.weeklyDone[weekKey])) : {};
         const taskId = e.target.dataset.task; const col = parseInt(e.target.dataset.col,10);
