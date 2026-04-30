@@ -326,27 +326,26 @@
   inset: 0;
   display: grid;
   place-items: center;
-  background: rgba(0,0,0,0.55);
+  background: #0f0f12;
   z-index: 99999;
-  animation: petFadeOut 28s ease forwards;
+  animation: petFadeOut 25s ease forwards;
 }
 
-.pet-popup-box {
-  background: linear-gradient(135deg, #1a1a1f, #35101c);
-  border: 1px solid var(--accent);
-  color: var(--ink);
-  padding: 24px;
-  border-radius: 22px;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-  max-width: 520px;
+.pet-stage {
+  position: relative;
   width: min(92vw, 520px);
+  height: min(92vh, 620px);
+  display: grid;
+  place-items: center;
 }
 
-/* TEXT SEQUENCE */
 .hello-text,
 .good-text {
-  font-size: 1.45rem;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.6rem;
   font-weight: 800;
   text-align: center;
 }
@@ -357,56 +356,36 @@
 
 .good-text {
   opacity: 0;
-  margin-bottom: 16px;
   animation: goodTextEnter 3s ease 15s forwards;
 }
 
-/* STACK */
 .pet-stack {
-  position: relative;
-  width: 260px;
-  height: 260px;
-  margin: 0 auto;
-}
-
-.pet-photo {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 2px solid rgba(255,255,255,0.2);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.7);
-  animation: photoStack 5.5s ease forwards;
+  width: 300px;
+  height: 300px;
+  opacity: 1;
 }
 
-/* staggered photos */
-.p1 { animation-delay: 4.2s;  --angle: -16deg; --x: -56%; --y: -54%; }
-.p2 { animation-delay: 5.8s;  --angle: 10deg;  --x: -44%; --y: -52%; }
-.p3 { animation-delay: 7.4s;  --angle: -7deg;  --x: -52%; --y: -46%; }
-.p4 { animation-delay: 9.0s;  --angle: 18deg;  --x: -47%; --y: -49%; }
-.p5 { animation-delay: 10.6s; --angle: -22deg; --x: -58%; --y: -43%; }
-.p6 { animation-delay: 12.2s; --angle: 6deg;   --x: -42%; --y: -44%; }
-.p7 { animation-delay: 13.8s; --angle: -3deg;  --x: -50%; --y: -50%; }
-
-/* FINAL PHOTO */
+.pet-photo,
 .final-photo {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 180px;
-  height: 180px;
+  width: 190px;
+  height: 190px;
   object-fit: cover;
   border-radius: 14px;
   border: 2px solid rgba(255,255,255,0.2);
   box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  z-index: 20;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.7);
+}
+
+.pet-photo {
+  animation: photoStack 5.5s ease forwards;
+}
+
+.final-photo {
+  z-index: 20;
   animation:
     finalPhotoDrop 5.5s ease 18s forwards,
     finalPulse 1.2s ease-in-out 23.5s 1;
@@ -414,16 +393,16 @@
 
 /* ANIMATIONS */
 @keyframes helloFade {
-  0% { opacity: 0; transform: translateY(8px); }
-  15% { opacity: 1; transform: translateY(0); }
+  0% { opacity: 0; }
+  15% { opacity: 1; }
   70% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 0; }
 }
 
 @keyframes goodTextEnter {
-  0% { opacity: 0; transform: translateY(18px); }
-  45% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 1; transform: translateY(-18px); }
+  0% { opacity: 0; transform: translateY(0); }
+  45% { opacity: 1; transform: translateY(-145px); }
+  100% { opacity: 1; transform: translateY(-145px); }
 }
 
 @keyframes photoStack {
@@ -469,7 +448,7 @@
 
 /* POPUP TIMING */
 .pet-popup {
-  animation: petFadeOut 28s ease forwards;
+  animation: petFadeOut 25s ease forwards;
 }
 
 @keyframes petFadeOut {
@@ -795,30 +774,30 @@ body.app-unlocked #dashboardApp{
   const popup = document.createElement("div");
   popup.className = "pet-popup";
 
-  popup.innerHTML = `
-    <div class="pet-popup-box">
-  <div class="hello-text">Hello My Locked Pet ❤️</div>
+    popup.innerHTML = `
+  <div class="pet-stage">
+    <div class="hello-text">Hello My Locked Pet ❤️</div>
 
-  <div class="good-text">Have you been good today? 😈</div>
+    <div class="pet-stack">
+      <img class="pet-photo p1" src="Images/SPOILER_Snapchat-506067771.jpeg" alt="">
+      <img class="pet-photo p2" src="Images/SPOILER_Snapchat-1261008396.jpeg" alt="">
+      <img class="pet-photo p3" src="Images/SPOILER_Snapchat-2008389140.jpeg" alt="">
+      <img class="pet-photo p4" src="Images/Snapchat-174173646.jpeg" alt="">
+      <img class="pet-photo p5" src="Images/Snapchat-1932973159.jpeg" alt="">
+      <img class="pet-photo p6" src="Images/Snapchat-1516503806.jpeg" alt="">
+      <img class="pet-photo p7" src="Images/Snapchat-920630831.jpeg" alt="">
+      <img class="final-photo" src="Images/IMG_0107.jpeg" alt="">
+    </div>
 
-      <div class="pet-stack">
-  <img class="pet-photo p1" src="Images/SPOILER_Snapchat-506067771.jpeg" alt="">
-  <img class="pet-photo p2" src="Images/SPOILER_Snapchat-1261008396.jpeg" alt="">
-  <img class="pet-photo p3" src="Images/SPOILER_Snapchat-2008389140.jpeg" alt="">
-  <img class="pet-photo p4" src="Images/Snapchat-174173646.jpeg" alt="">
-  <img class="pet-photo p5" src="Images/Snapchat-1932973159.jpeg" alt="">
-  <img class="pet-photo p6" src="Images/Snapchat-1516503806.jpeg" alt="">
-  <img class="pet-photo p7" src="Images/Snapchat-920630831.jpeg" alt="">
-  <img class="final-photo" src="Images/IMG_0107.jpeg" alt="">
-  
-</div>
-  `;
+    <div class="good-text">Have you been good today? 😈</div>
+  </div>
+`;
 
   document.body.appendChild(popup);
 
   setTimeout(() => {
     popup.remove();
-  }, 28000);
+  }, 25000);
 }
   
   if(introYesBtn){
