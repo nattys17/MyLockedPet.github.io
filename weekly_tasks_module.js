@@ -1,11 +1,11 @@
 (function(){
   // Weekly Tasks (Mon–Fri, PDT) — single-card with inline editor
   // v3.1: Robust role detection + safe fallbacks (force show via data-editor="show" or ?edit=1)
-  const TZ = 'America/Los_Angeles';
+  const TZ = 'America/Chicago';
 
   // ---------- Time helpers ----------
   function ymdInTZ(){
-    return new Intl.DateTimeFormat('en-CA', {
+    return new Intl.DateTimeFormat('en-US', {
       timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'
     }).format(new Date());
   }
@@ -25,12 +25,12 @@
     const monStr = mondayOfWeekPDT();
     const [y,m,d] = monStr.split('-').map(Number);
     const mon = new Date(y, m-1, d);
-    const fri = new Date(y, m-1, d+4);
+    const sun = new Date(y, m-1, d+6);
     const fmt = (dt)=>dt.toLocaleDateString(undefined,{month:'short', day:'numeric'});
-    return `${fmt(mon)} – ${fmt(fri)} (PDT)`;
+    return `${fmt(mon)} – ${fmt(sun)} (CDT)`;
   }
   function todayColIndex(){
-    const idxMap = {Mon:0, Tue:1, Wed:2, Thu:3, Fri:4};
+    const idxMap = {Mon:0, Tue:1, Wed:2, Thu:3, Fri:4, Sat:5, Sun:6};
     const k = dowInTZ(); return (k in idxMap) ? idxMap[k] : -1;
   }
 
