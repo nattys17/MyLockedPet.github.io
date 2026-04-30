@@ -556,7 +556,7 @@ body.app-unlocked #dashboardApp{
     </section>
   </div>
 
-  <div id="dashboardApp">
+  <div id="dashboardApp" style="display:none;">
   <header>
     <div class="row center">
       <div class="pill">Mode: <span id="modeLabel" class="status">Locked Pet</span></div>
@@ -806,6 +806,8 @@ body.app-unlocked #dashboardApp{
     if(r !== "keyholder" && r !== "sub") return;
     role = r;
     document.body.classList.add("app-unlocked");
+    document.getElementById("dashboardApp").style.display = "block";
+document.getElementById("introGate").style.display = "none";
     if(introError) introError.style.display = "none";
     if(modeLabel) modeLabel.textContent = r==="keyholder" ? "Keyholder" : "Locked Pet";
     const settings = document.getElementById("settings");
