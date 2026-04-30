@@ -336,7 +336,7 @@ body:not(.app-ready) #introScreen {
   place-items: center;
   background: #0f0f12;
   z-index: 99999;
-  animation: petFadeOut 38s ease forwards;
+  animation: petFadeOut 32s ease forwards;
 }
 
 .pet-stage {
@@ -426,6 +426,7 @@ body:not(.app-ready) #introScreen {
   animation:
     finalPhotoDrop 5.5s ease 25s forwards,
     finalPulse 1.2s ease-in-out 28.7s 1;
+    z-index: 30;
 }
 
 /* ANIMATIONS */
@@ -856,7 +857,7 @@ body.app-unlocked #dashboardApp{
 
   setTimeout(() => {
     popup.remove();
-  }, 38000);
+  }, 32000);
 }
   
   if(introYesBtn){
