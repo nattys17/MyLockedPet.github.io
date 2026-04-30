@@ -100,6 +100,35 @@
   .right{margin-left:auto}
   .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,monospace;font-size:.85rem;background:#0e0e12;border:1px solid #2a2a33;padding:2px 6px;border-radius:6px}
 
+.pet-popup {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,0.55);
+  z-index: 99999;
+  animation: petFadeOut 3.2s ease forwards;
+}
+
+.pet-popup-box {
+  background: linear-gradient(135deg, #1a1a1f, #35101c);
+  border: 1px solid var(--accent);
+  color: var(--ink);
+  padding: 28px 34px;
+  border-radius: 22px;
+  font-size: 1.45rem;
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
+@keyframes petFadeOut {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  75% { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+  
 .wheel-panel {
   max-width: 900px;
   margin: 2rem auto;
@@ -558,6 +587,27 @@
   const modeLabel = document.getElementById("modeLabel");
   const keyBtn    = document.getElementById("toggleMode");
   const subBtn    = document.getElementById("subModeBtn");
+  function showLockedPetPopup(){
+   const old = document.querySelector(".pet-popup");
+   if(old) old.remove();
+
+   const popup = document.createElement("div");
+   popup.className = "pet-popup";
+
+   popup.innerHTML = `
+    <div class="pet-popup-box">
+      Hi My Locked Pet.<br>
+      Have you been good today? 😈
+    </div>
+  `;
+
+   document.body.appendChild(popup);
+
+   setTimeout(() => {
+    popup.remove();
+  }, 3300);
+} 
+  
   function setRole(r){
     role = r;
     if(modeLabel) modeLabel.textContent = r==="keyholder" ? "Keyholder" : r==="sub" ? "Locked Pet" : "Viewer";
@@ -569,7 +619,12 @@
     if(timerEditor) timerEditor.style.display = (r==="keyholder") ? "flex" : "none";
   }
   if(keyBtn){ keyBtn.addEventListener("click", ()=>{ const pin = prompt("Enter Keyholder PIN:"); if(pin!==KEYHOLDER_PIN) return flash("error","Wrong PIN"); setRole("keyholder"); flash("","Keyholder mode enabled"); }); }
-  if(subBtn){ subBtn.addEventListener("click", ()=>{ setRole("sub"); flash("","Sub mode enabled"); }); }
+  if(subBtn){
+  subBtn.addEventListener("click", ()=>{
+    setRole("sub");
+    showLockedPetPopup();
+  });
+}
 
   // DOM refs
   const progressBar   = document.getElementById("progressBar");
