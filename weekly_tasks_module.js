@@ -5,7 +5,7 @@
 
   // ---------- Time helpers ----------
   function ymdInTZ(){
-    return new Intl.DateTimeFormat('en-US', {
+    return new Intl.DateTimeFormat('en-CA', {
       timeZone: TZ, year:'numeric', month:'2-digit', day:'2-digit'
     }).format(new Date());
   }
@@ -25,7 +25,7 @@
     const monStr = mondayOfWeekPDT();
     const [y,m,d] = monStr.split('-').map(Number);
     const mon = new Date(y, m-1, d);
-    const sun = new Date(y, m-1, d+6);
+    const sun = new Date(y, m-1, d-1);
     const fmt = (dt)=>dt.toLocaleDateString(undefined,{month:'short', day:'numeric'});
     return `${fmt(mon)} – ${fmt(sun)} (CDT)`;
   }
@@ -153,7 +153,7 @@
       const tdName = document.createElement('td'); tdName.className = 'taskcol';
       tdName.innerHTML = `<div class="taskname">${task.label || '(unnamed task)'}</div>`;
       tr.appendChild(tdName);
-      for(let i=0;i<5;i++){
+      for(let i=0;i<7;i++){
         const td = document.createElement('td');
         const cb = document.createElement('input'); cb.type='checkbox'; cb.dataset.task = task.id; cb.dataset.col = String(i);
         const row = done[task.id] || [false,false,false,false,false,false,false];
