@@ -328,7 +328,7 @@
   place-items: center;
   background: rgba(0,0,0,0.55);
   z-index: 99999;
-  animation: petFadeOut 20s ease forwards;
+  animation: petFadeOut 28s ease forwards;
 }
 
 .pet-popup-box {
@@ -343,12 +343,25 @@
   width: min(92vw, 520px);
 }
 
-.pet-popup-message {
+/* TEXT SEQUENCE */
+.hello-text,
+.good-text {
   font-size: 1.45rem;
   font-weight: 800;
-  margin-bottom: 16px;
+  text-align: center;
 }
 
+.hello-text {
+  animation: helloFade 4s ease forwards;
+}
+
+.good-text {
+  opacity: 0;
+  margin-bottom: 16px;
+  animation: goodTextEnter 3s ease 15s forwards;
+}
+
+/* STACK */
 .pet-stack {
   position: relative;
   width: 260px;
@@ -366,12 +379,21 @@
   border-radius: 14px;
   border: 2px solid rgba(255,255,255,0.2);
   box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.7) rotate(0deg);
-
+  transform: translate(-50%, -50%) scale(0.7);
   animation: photoStack 5.5s ease forwards;
 }
+
+/* staggered photos */
+.p1 { animation-delay: 4.2s;  --angle: -16deg; --x: -56%; --y: -54%; }
+.p2 { animation-delay: 5.8s;  --angle: 10deg;  --x: -44%; --y: -52%; }
+.p3 { animation-delay: 7.4s;  --angle: -7deg;  --x: -52%; --y: -46%; }
+.p4 { animation-delay: 9.0s;  --angle: 18deg;  --x: -47%; --y: -49%; }
+.p5 { animation-delay: 10.6s; --angle: -22deg; --x: -58%; --y: -43%; }
+.p6 { animation-delay: 12.2s; --angle: 6deg;   --x: -42%; --y: -44%; }
+.p7 { animation-delay: 13.8s; --angle: -3deg;  --x: -50%; --y: -50%; }
+
+/* FINAL PHOTO */
 .final-photo {
   position: absolute;
   top: 50%;
@@ -385,22 +407,24 @@
   z-index: 20;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.7);
-
   animation:
-  finalPhotoDrop 5.5s ease 14s forwards,
-  finalGlowPulse 1.2s ease-in-out 17s 1;
+    finalPhotoDrop 5.5s ease 18s forwards,
+    finalPulse 1.2s ease-in-out 23.5s 1;
 }
 
+/* ANIMATIONS */
+@keyframes helloFade {
+  0% { opacity: 0; transform: translateY(8px); }
+  15% { opacity: 1; transform: translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
 
-
-.p1 { animation-delay: 0.4s;  --angle: -16deg; --x: -56%; --y: -54%; }
-.p2 { animation-delay: 2s;  --angle: 10deg;  --x: -44%; --y: -52%; }
-.p3 { animation-delay: 4s;  --angle: -7deg;  --x: -52%; --y: -46%; }
-.p4 { animation-delay: 6s;  --angle: 18deg;  --x: -47%; --y: -49%; }
-.p5 { animation-delay: 8s;  --angle: -22deg; --x: -58%; --y: -43%; }
-.p6 { animation-delay: 10s;  --angle: 6deg;   --x: -42%; --y: -44%; }
-.p7 { animation-delay: 12s;  --angle: -3deg;  --x: -50%; --y: -50%; }
-.p8 { --angle: 0deg;  --x: -50%;  --y: -50%; }
+@keyframes goodTextEnter {
+  0% { opacity: 0; transform: translateY(18px); }
+  45% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(-18px); }
+}
 
 @keyframes photoStack {
   0% {
@@ -411,16 +435,11 @@
     opacity: 1;
     transform: translate(var(--x), var(--y)) scale(1.08) rotate(var(--angle));
   }
-  75% {
-    transform: translate(var(--x), var(--y)) scale(1) rotate(var(--angle));
-  }
   100% {
     opacity: 1;
     transform: translate(var(--x), var(--y)) scale(1) rotate(var(--angle));
   }
 }
-
-
 
 @keyframes finalPhotoDrop {
   0% {
@@ -431,9 +450,6 @@
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.08);
   }
-  75% {
-    transform: translate(-50%, -50%) scale(1);
-  }
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
@@ -441,25 +457,24 @@
 }
 
 @keyframes finalPulse {
-  0% {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    transform: translate(-50%, -50%) scale(1);
-  }
+  0% { box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
   50% {
-    box-shadow: 0 0 18px rgba(255, 51, 102, 0.35),
-                0 0 36px rgba(255, 51, 102, 0.2),
-                0 10px 25px rgba(0,0,0,0.5);
-    transform: translate(-50%, -50%) scale(1.035);
+    box-shadow:
+      0 0 18px rgba(255, 51, 102, 0.35),
+      0 0 36px rgba(255, 51, 102, 0.2),
+      0 10px 25px rgba(0,0,0,0.5);
   }
-  100% {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    transform: translate(-50%, -50%) scale(1);
-  }
+  100% { box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+}
+
+/* POPUP TIMING */
+.pet-popup {
+  animation: petFadeOut 28s ease forwards;
 }
 
 @keyframes petFadeOut {
   0% { opacity: 0; }
-  5% { opacity: 1; }
+  4% { opacity: 1; }
   92% { opacity: 1; }
   100% { opacity: 0; pointer-events: none; }
 }
@@ -782,10 +797,9 @@ body.app-unlocked #dashboardApp{
 
   popup.innerHTML = `
     <div class="pet-popup-box">
-      <div class="pet-popup-message">
-        Hi My Locked Pet.<br>
-        Have you been good today? 😈
-      </div>
+  <div class="hello-text">Hello My Locked Pet ❤️</div>
+
+  <div class="good-text">Have you been good today? 😈</div>
 
       <div class="pet-stack">
   <img class="pet-photo p1" src="Images/SPOILER_Snapchat-506067771.jpeg" alt="">
@@ -804,7 +818,7 @@ body.app-unlocked #dashboardApp{
 
   setTimeout(() => {
     popup.remove();
-  }, 20000);
+  }, 28000);
 }
   
   if(introYesBtn){
