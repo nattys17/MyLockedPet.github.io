@@ -142,7 +142,7 @@
       ths.forEach((th,i)=> th.classList.toggle('todaycol', (i-1)===tcol));
     }
     if(weekRangePDT) weekRangePDT.textContent = weekRangeLabelPDT();
-
+    cb.disabled = !(getRole(root)==='keyholder' || getRole(root)==='sub');
     const weekKey = mondayOfWeekPDT();
     const cfg = state.weeklyTasksConfig || [];
     const done = (state.weeklyDone && state.weeklyDone[weekKey]) ? state.weeklyDone[weekKey] : {};
