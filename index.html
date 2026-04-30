@@ -349,53 +349,100 @@
   margin-bottom: 16px;
 }
 
-.pet-collage {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+.pet-stack {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 0 auto;
 }
 
-.pet-collage img {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.16);
-}
 .pet-photo {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
   object-fit: cover;
   border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.16);
+  border: 2px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+
   opacity: 0;
-  animation: photoPopFade 9s ease forwards;
+  transform: translate(-50%, -50%) scale(0.7) rotate(0deg);
+
+  animation: photoStack 9s ease forwards;
 }
 
-.pet-photo.p1 { animation-delay: 0.2s; }
-.pet-photo.p2 { animation-delay: 0.8s; }
-.pet-photo.p3 { animation-delay: 1.4s; }
-.pet-photo.p4 { animation-delay: 2.0s; }
-.pet-photo.p5 { animation-delay: 2.6s; }
-.pet-photo.p6 { animation-delay: 3.2s; }
-.pet-photo.p7 { animation-delay: 3.8s; }
+.final-photo {
+  z-index: 10; /* sits on top */
+}
 
-@keyframes photoPopFade {
+.p1 { animation-delay: 0.4s;  --angle: -16deg; --x: -56%; --y: -54%; }
+.p2 { animation-delay: 1.2s;  --angle: 10deg;  --x: -44%; --y: -52%; }
+.p3 { animation-delay: 2.0s;  --angle: -7deg;  --x: -52%; --y: -46%; }
+.p4 { animation-delay: 2.8s;  --angle: 18deg;  --x: -47%; --y: -49%; }
+.p5 { animation-delay: 3.6s;  --angle: -22deg; --x: -58%; --y: -43%; }
+.p6 { animation-delay: 4.4s;  --angle: 6deg;   --x: -42%; --y: -44%; }
+.p7 { animation-delay: 5.2s;  --angle: -3deg;  --x: -50%; --y: -50%; }
+.p8 {
+  animation-delay: 6.4s;
+  --angle: 0deg;
+  --x: -50%;
+  --y: -50%;
+}
+
+@keyframes photoStack {
   0% {
     opacity: 0;
-    transform: scale(0.92);
+    transform: translate(var(--x), -140%) scale(0.6) rotate(0deg);
   }
-  18% {
+  50% {
     opacity: 1;
-    transform: scale(1);
+    transform: translate(var(--x), var(--y)) scale(1.08) rotate(var(--angle));
   }
-  72% {
-    opacity: 1;
-    transform: scale(1);
+  75% {
+    transform: translate(var(--x), var(--y)) scale(1) rotate(var(--angle));
   }
   100% {
+    opacity: 1;
+    transform: translate(var(--x), var(--y)) scale(1) rotate(var(--angle));
+  }
+}
+
+.final-photo {
+  z-index: 10;
+  animation: finalPhoto 2.2s ease forwards, finalPulse 1.2s ease-in-out 1 8.6s;
+}
+
+@keyframes finalPhoto {
+  0% {
     opacity: 0;
-    transform: scale(0.96);
+    transform: translate(-50%, -160%) scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes finalPulse {
+  0% {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(255, 51, 102, 0.35),
+                0 0 36px rgba(255, 51, 102, 0.2),
+                0 10px 25px rgba(0,0,0,0.5);
+    transform: translate(-50%, -50%) scale(1.035);
+  }
+  100% {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -729,7 +776,7 @@ body.app-unlocked #dashboardApp{
         Have you been good today? 😈
       </div>
 
-      <div class="pet-collage">
+      <div class="pet-stack">
   <img class="pet-photo p1" src="Images/SPOILER_Snapchat-506067771.jpeg" alt="">
   <img class="pet-photo p2" src="Images/SPOILER_Snapchat-1261008396.jpeg" alt="">
   <img class="pet-photo p3" src="Images/SPOILER_Snapchat-2008389140.jpeg" alt="">
@@ -737,7 +784,7 @@ body.app-unlocked #dashboardApp{
   <img class="pet-photo p5" src="Images/Snapchat-1932973159.jpeg" alt="">
   <img class="pet-photo p6" src="Images/Snapchat-1516503806.jpeg" alt="">
   <img class="pet-photo p7" src="Images/Snapchat-920630831.jpeg" alt="">
-  
+  <img class="pet-photo p8 final-photo" src="Images/IMG_0107.jpeg" alt="">
   
 </div>
   `;
