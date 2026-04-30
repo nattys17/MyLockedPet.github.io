@@ -134,6 +134,7 @@
     const weeklyTable = document.getElementById('weeklyTable');
     const weeklyTbody = document.getElementById('weeklyTbody');
     const weekRangePDT = document.getElementById('weekRangePDT');
+    cb.disabled = !(getRole(root)==='keyholder' || getRole(root)==='sub');
     if(!weeklyTbody) return;
 
     const tcol = todayColIndex();
@@ -142,7 +143,7 @@
       ths.forEach((th,i)=> th.classList.toggle('todaycol', (i-1)===tcol));
     }
     if(weekRangePDT) weekRangePDT.textContent = weekRangeLabelPDT();
-    cb.disabled = !(getRole(root)==='keyholder' || getRole(root)==='sub');
+    
     const weekKey = mondayOfWeekPDT();
     const cfg = state.weeklyTasksConfig || [];
     const done = (state.weeklyDone && state.weeklyDone[weekKey]) ? state.weeklyDone[weekKey] : {};
@@ -247,9 +248,16 @@
     const weeklyTbody = document.getElementById('weeklyTbody');
     if(weeklyTbody){
       weeklyTbody.addEventListener('change', async (e)=>{
-        if(!e.target.matches('input[type="checkbox"]')) return;
-        const role = getRole(root);
-        if(!(role==='keyholder' || role==='sub')){ flash('Choose a role','error'); return; }
+  if(!e.target.matches('input[type="checkbox"]')) return;
+
+  const role = getRole(root);
+
+  // 🚫 Block viewer completely
+  if(!(role==='keyholder' || role==='sub')){
+    e.target.checked = !e.target.checked; // revert the click
+    flash('Choose a role','error');
+    return;
+  }
         const who = (role==='sub') ? 'sub' : 'keyholder';
         const token = who==='sub' ? cfg.TOKEN_SUB : cfg.TOKEN_KEY;
 
