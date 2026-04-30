@@ -156,7 +156,7 @@
       for(let i=0;i<5;i++){
         const td = document.createElement('td');
         const cb = document.createElement('input'); cb.type='checkbox'; cb.dataset.task = task.id; cb.dataset.col = String(i);
-        const row = done[task.id] || [false,false,false,false,false];
+        const row = done[task.id] || [false,false,false,false,false,false,false];
         cb.checked = !!row[i];
         td.appendChild(cb); tr.appendChild(td);
       }
