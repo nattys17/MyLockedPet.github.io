@@ -20,12 +20,16 @@
   display: none !important;
 }
 
-body.app-unlocked #dashboardApp {
-  display: block !important;
+#introGate {
+  display: flex !important;
 }
 
 body.app-unlocked #introGate {
   display: none !important;
+}
+
+body.app-unlocked #dashboardApp {
+  display: block !important;
 }
   
   *{box-sizing:border-box}
@@ -551,7 +555,7 @@ body.app-unlocked #dashboardApp{
 
 </style>
 </head>
-<body style="visibility:hidden;">
+<body>
   <div id="introGate">
     <section class="card">
       <h1>Are you My Locked Pet?</h1>
