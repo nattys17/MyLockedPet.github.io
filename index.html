@@ -372,10 +372,24 @@
 
   animation: photoStack 9s ease forwards;
 }
-
 .final-photo {
-  z-index: 10; /* sits on top */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  z-index: 20;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
+
+  animation: finalPhotoDrop 2.2s ease 6.4s forwards;
 }
+
+
 
 .p1 { animation-delay: 0.4s;  --angle: -16deg; --x: -56%; --y: -54%; }
 .p2 { animation-delay: 1.2s;  --angle: 10deg;  --x: -44%; --y: -52%; }
@@ -404,16 +418,9 @@
   }
 }
 
-.final-photo {
-  z-index: 10;
-  opacity: 0;
-  animation:
-    finalPhoto 2.2s ease 6.4s forwards,
-    finalPulse 1.2s ease-in-out 8.6s 1;
-}
-}
 
-@keyframes finalPhoto {
+
+@keyframes finalPhotoDrop {
   0% {
     opacity: 0;
     transform: translate(-50%, -160%) scale(0.7);
@@ -421,10 +428,14 @@
   60% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 0 18px rgba(255, 51, 102, 0.35),
+                0 0 36px rgba(255, 51, 102, 0.2),
+                0 10px 25px rgba(0,0,0,0.5);
   }
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   }
 }
 
@@ -783,7 +794,7 @@ body.app-unlocked #dashboardApp{
   <img class="pet-photo p5" src="Images/Snapchat-1932973159.jpeg" alt="">
   <img class="pet-photo p6" src="Images/Snapchat-1516503806.jpeg" alt="">
   <img class="pet-photo p7" src="Images/Snapchat-920630831.jpeg" alt="">
-  <img class="pet-photo p8 final-photo" src="Images/IMG_0107.jpeg" alt="">
+  <img class="final-photo" src="Images/IMG_0107.jpeg" alt="">
   
 </div>
   `;
