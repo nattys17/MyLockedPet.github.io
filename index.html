@@ -16,8 +16,15 @@
     --warn:#f59e0b;
   }
   
-body:not(.app-ready) #introGate,
-body:not(.app-ready) #dashboardApp {
+#dashboardApp {
+  display: none !important;
+}
+
+body.app-unlocked #dashboardApp {
+  display: block !important;
+}
+
+body.app-unlocked #introGate {
   display: none !important;
 }
   
@@ -806,8 +813,6 @@ body.app-unlocked #dashboardApp{
     if(r !== "keyholder" && r !== "sub") return;
     role = r;
     document.body.classList.add("app-unlocked");
-    document.getElementById("dashboardApp").style.display = "block";
-document.getElementById("introGate").style.display = "none";
     if(introError) introError.style.display = "none";
     if(modeLabel) modeLabel.textContent = r==="keyholder" ? "Keyholder" : "Locked Pet";
     const settings = document.getElementById("settings");
@@ -1698,8 +1703,7 @@ const finalRotation =
       .replaceAll("'", "&#039;");
   }
 
-document.body.classList.add("app-ready");
-document.body.style.visibility = "visible";
+
 
   // Lightweight confetti without any library
   function launchConfetti() {
