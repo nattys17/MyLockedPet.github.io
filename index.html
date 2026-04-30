@@ -100,35 +100,6 @@
   .right{margin-left:auto}
   .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,monospace;font-size:.85rem;background:#0e0e12;border:1px solid #2a2a33;padding:2px 6px;border-radius:6px}
 
-.pet-popup {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(0,0,0,0.55);
-  z-index: 99999;
-  animation: petFadeOut 3.2s ease forwards;
-}
-
-.pet-popup-box {
-  background: linear-gradient(135deg, #1a1a1f, #35101c);
-  border: 1px solid var(--accent);
-  color: var(--ink);
-  padding: 28px 34px;
-  border-radius: 22px;
-  font-size: 1.45rem;
-  font-weight: 800;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-}
-
-@keyframes petFadeOut {
-  0% { opacity: 0; }
-  12% { opacity: 1; }
-  75% { opacity: 1; }
-  100% { opacity: 0; pointer-events: none; }
-}
-  
 .wheel-panel {
   max-width: 900px;
   margin: 2rem auto;
@@ -346,20 +317,63 @@
   .wk .todaycol{outline:1px dashed #3b82f6; outline-offset:-4px; border-radius:6px}
   .wk .taskname{display:flex;align-items:center;gap:8px;font-weight:600}
   .wk input[type=checkbox]{transform:scale(1.2)}
-  .wk input[type="checkbox"]:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
   .banner{display:block;padding:8px 12px;border:1px solid #2a2a33;border-radius:10px;background:#12131a;margin:8px 0}
   .banner.success{border-color:#2563eb}
   .banner.error{border-color:#ef4444}
   
+
+/* Intro gate */
+#introGate{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+#introGate .card{
+  width:100%;
+  max-width:520px;
+  text-align:center;
+}
+#introGate h1{
+  margin:0 0 16px 0;
+  font-size:1.6rem;
+}
+#introGate .row{
+  justify-content:center;
+}
+#introError{
+  display:none;
+  margin-top:12px;
+}
+#dashboardApp{
+  display:none;
+}
+body.app-unlocked #introGate{
+  display:none;
+}
+body.app-unlocked #dashboardApp{
+  display:block;
+}
+
 </style>
 </head>
 <body>
+  <div id="introGate">
+    <section class="card">
+      <h1>Are you My Locked Pet?</h1>
+      <div class="row">
+        <button id="introYesBtn" type="button">Yes</button>
+        <button id="introNoBtn" type="button">No</button>
+      </div>
+      <div id="introError" class="banner error"></div>
+    </section>
+  </div>
+
+  <div id="dashboardApp">
   <header>
     <div class="row center">
-      <div class="pill">Mode: <span id="modeLabel" class="status">Viewer</span></div>
+      <div class="pill">Mode: <span id="modeLabel" class="status">Locked Pet</span></div>
       <button id="toggleMode" title="Enter password to enable Keyholder edits">Keyholder Mode</button>
       <button id="subModeBtn" >Locked Pet Mode</button>
     </div>
@@ -531,6 +545,7 @@
       <textarea id="notes" placeholder="Reflections, conditions, rewards, or reminders..."></textarea>
     </section>
   </div>
+  </div>
 
 <script>
 (function(){
@@ -575,7 +590,7 @@
   function toInputLocal(ymdHM){ if(!ymdHM) return ""; const s=String(ymdHM).replace("T"," ").replace(" ","T"); return s.slice(0,16); }
 
   // State & role
-  let role = "Viewer"; // viewer | keyholder | sub
+  let role = ""; // keyholder | sub
   let state = { progress:0, status:"Locked", nextReview:"", tasks:{}, rules:[], notes:"", calendar:{}, activity:[], timerStart:"" };
 
   // UI elements
@@ -591,44 +606,47 @@
   const modeLabel = document.getElementById("modeLabel");
   const keyBtn    = document.getElementById("toggleMode");
   const subBtn    = document.getElementById("subModeBtn");
-  function showLockedPetPopup(){
-   const old = document.querySelector(".pet-popup");
-   if(old) old.remove();
+  const introYesBtn = document.getElementById("introYesBtn");
+  const introNoBtn  = document.getElementById("introNoBtn");
+  const introError  = document.getElementById("introError");
 
-   const popup = document.createElement("div");
-   popup.className = "pet-popup";
+  function showIntroError(text){
+    if(!introError) return alert(text);
+    introError.textContent = text;
+    introError.style.display = "block";
+  }
 
-   popup.innerHTML = `
-    <div class="pet-popup-box">
-      Hi My Locked Pet.<br>
-      Have you been good today? 😈
-    </div>
-  `;
-
-   document.body.appendChild(popup);
-
-   setTimeout(() => {
-    popup.remove();
-  }, 3300);
-} 
-  
   function setRole(r){
+    if(r !== "keyholder" && r !== "sub") return;
     role = r;
-    if(modeLabel) modeLabel.textContent = r==="keyholder" ? "Keyholder" : r==="sub" ? "Locked Pet" : "Viewer";
+    document.body.classList.add("app-unlocked");
+    if(introError) introError.style.display = "none";
+    if(modeLabel) modeLabel.textContent = r==="keyholder" ? "Keyholder" : "Locked Pet";
     const settings = document.getElementById("settings");
     const editRules = document.getElementById("editRules");
     if(settings) settings.style.display = (r==="keyholder") ? "block" : "none";
     if(editRules) editRules.style.display = (r==="keyholder") ? "block" : "none";
     const timerEditor = document.getElementById("timerEditor");
     if(timerEditor) timerEditor.style.display = (r==="keyholder") ? "flex" : "none";
+    document.dispatchEvent(new CustomEvent("dashboardRoleChanged", { detail: { role: r } }));
   }
-  if(keyBtn){ keyBtn.addEventListener("click", ()=>{ const pin = prompt("Enter Keyholder PIN:"); if(pin!==KEYHOLDER_PIN) return flash("error","Wrong PIN"); setRole("keyholder"); flash("","Keyholder mode enabled"); }); }
-  if(subBtn){
-  subBtn.addEventListener("click", ()=>{
-    setRole("sub");
-    showLockedPetPopup();
-  });
-}
+
+  if(introYesBtn){
+    introYesBtn.addEventListener("click", ()=>{
+      setRole("sub");
+    });
+  }
+
+  if(introNoBtn){
+    introNoBtn.addEventListener("click", ()=>{
+      const pin = prompt("Enter Keyholder PIN:");
+      if(pin !== KEYHOLDER_PIN) return showIntroError("Wrong PIN");
+      setRole("keyholder");
+    });
+  }
+
+  if(keyBtn){ keyBtn.addEventListener("click", ()=>{ const pin = prompt("Enter Keyholder PIN:"); if(pin!==KEYHOLDER_PIN) return flash("error","Wrong PIN"); setRole("keyholder"); flash("success","Keyholder mode enabled"); }); }
+  if(subBtn){ subBtn.addEventListener("click", ()=>{ setRole("sub"); flash("success","Locked Pet mode enabled"); }); }
 
   // DOM refs
   const progressBar   = document.getElementById("progressBar");
