@@ -25,7 +25,7 @@
     const monStr = mondayOfWeekPDT();
     const [y,m,d] = monStr.split('-').map(Number);
     const mon = new Date(y, m-1, d);
-    const sun = new Date(y, m-1, d-1);
+    const sun = new Date(y, m-1, d+6);
     const fmt = (dt)=>dt.toLocaleDateString(undefined,{month:'short', day:'numeric'});
     return `${fmt(mon)} – ${fmt(sun)} (CDT)`;
   }
@@ -256,7 +256,7 @@
         const weekKey = mondayOfWeekPDT();
         const done = (state.weeklyDone && state.weeklyDone[weekKey]) ? JSON.parse(JSON.stringify(state.weeklyDone[weekKey])) : {};
         const taskId = e.target.dataset.task; const col = parseInt(e.target.dataset.col,10);
-        const row = done[taskId] || [false,false,false,false,false]; row[col] = e.target.checked; done[taskId] = row;
+        const row = done[taskId] || [false,false,false,false,false,false,false]; row[col] = e.target.checked; done[taskId] = row;
 
         try{
           if(cfg.REMOTE_URL) await postPatch(cfg.REMOTE_URL, token, who, { weeklyDone: { [weekKey]: done } });
