@@ -746,19 +746,19 @@ body.app-unlocked #dashboardApp{
 
 <script>
 (function(){
-  // ===== CONFIG: set these =====
+  // ===== CONFIG =====
   const REMOTE_URL    = "https://script.google.com/macros/s/AKfycbygR2crQWUp-YeKrPZs-N4XJWK1qk0ZDRvr_65hxFCEDy1UEV1I7IAO9GGnil-mexGd/exec"; // Apps Script Web App URL (/exec)
-  const KEYHOLDER_PIN = "IamtheKeyholder";                   // UI gate only
-  const SUB_PIN       = "";                         // UI gate only
-  const TOKEN_KEY     = "080692";                 // must match Apps Script
-  const TOKEN_SUB     = "123091";                       // must match Apps Script
-  const AUTO_REFRESH_MS = 15000;                              // 2 minutes
+  const KEYHOLDER_PIN = "IamtheKeyholder";                   
+  const SUB_PIN       = "";                         
+  const TOKEN_KEY     = "080692";                 
+  const TOKEN_SUB     = "123091";                       
+  const AUTO_REFRESH_MS = 15000;                              
   // ==============================
 
   const TAGS_KEYHOLDER = ["done","missed","lock","released","unlocked"];
   const TAGS_SUB       = ["done","missed"];
 
-  // Render a YYYY-MM-DD string as local date (avoid UTC shift)
+  
   function ymdToLocalDisplay(ymd){
     if(!ymd) return "—";
     const parts = ymd.split("-"); if(parts.length!==3) return ymd;
@@ -767,7 +767,7 @@ body.app-unlocked #dashboardApp{
     return new Date(y, m-1, d).toLocaleDateString();
   }
 
-  // Timer helpers (local parsing)
+  
   function parseLocalDateTime(s){
     if(!s) return null; s = String(s).trim();
     if(/[T ]\d{2}:\d{2}(:\d{2})?(Z|[+-]\d{2}:?\d{2})$/.test(s)) return new Date(s);
@@ -786,11 +786,11 @@ body.app-unlocked #dashboardApp{
     return f.replace(/dd/g,String(p.days)).replace(/hh/g,pad2(p.hours)).replace(/mm/g,pad2(p.minutes)).replace(/ss/g,pad2(p.seconds)); }
   function toInputLocal(ymdHM){ if(!ymdHM) return ""; const s=String(ymdHM).replace("T"," ").replace(" ","T"); return s.slice(0,16); }
 
-  // State & role
+  
   let role = ""; // keyholder | sub
   let state = { progress:0, status:"Locked", nextReview:"", tasks:{}, rules:[], notes:"", calendar:{}, activity:[], timerStart:"" };
 
-  // UI elements
+  
   const serverMsg = document.getElementById("serverMsg");
   function flash(type, text){
     if(!serverMsg) return alert(text);
@@ -799,7 +799,7 @@ body.app-unlocked #dashboardApp{
     clearTimeout(flash._t); flash._t = setTimeout(()=>{ serverMsg.style.display="none"; }, 3500);
   }
 
-  // Role controls
+  
   const modeLabel = document.getElementById("modeLabel");
   const keyBtn    = document.getElementById("toggleMode");
   const subBtn    = document.getElementById("subModeBtn");
@@ -1107,7 +1107,7 @@ document.getElementById("dashboardApp").hidden = false;
   }
   if(notesEl){
     notesEl.addEventListener("change", async ()=>{
-      if(role!=="keyholder") return; // ignore non-keyholder
+      if(role!=="keyholder") return; 
       try{ await postPatch({ notes: notesEl.value || "" }); state.notes = notesEl.value || ""; flash("success","Notes saved"); }
       catch(e){ flash("error", String(e)); }
     });
@@ -1149,7 +1149,7 @@ document.getElementById("dashboardApp").hidden = false;
 })();
   
 (function(){
-  // Timer module (no flicker): single aligned ticker + text-diff updates
+  
   function parseLocalDateTime(s){
     if(!s) return null; s = String(s).trim();
     if(/[T ]\d{2}:\d{2}(:\d{2})?(Z|[+-]\d{2}:?\d{2})$/.test(s)) return new Date(s);
@@ -1240,7 +1240,7 @@ document.getElementById("dashboardApp").hidden = false;
       setEditorVisibility();
       startTicker();
       updateTimer();
-      // background resync every 2 min but do not recreate ticker
+      
       setInterval(async ()=>{
         try{
           const d = await fetchShared(REMOTE_URL);
@@ -1515,14 +1515,14 @@ document.getElementById("dashboardApp").hidden = false;
     const chosen = weightedRandomSegment();
 const chosenAngles = getSegmentAngles(chosen.index);
 
-// Land somewhere inside the chosen slice
+
 const padding = Math.min(chosenAngles.arc * 0.18, 0.18);
 const targetWithinSegment =
   chosenAngles.start +
   padding +
   Math.random() * Math.max(chosenAngles.arc - padding * 2, 0.02);
 
-// Pointer is at the top, and wheel slices already start from the top
+
 const desiredRotation = normalizeAngle(-targetWithinSegment);
 
 const extraSpins = TAU * (6 + Math.floor(Math.random() * 3));
@@ -1711,7 +1711,7 @@ const finalRotation =
 
 
 
-  // Lightweight confetti without any library
+  
   function launchConfetti() {
     const count = 140;
     const pieces = [];
